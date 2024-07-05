@@ -24,7 +24,7 @@ Y por último, proporcionar recomendaciones estratégicas basadas en los hallazg
   + PowerBI
   + Python
 
-## **Procesar y preparar la base de datos**
+## **5.1 Procesar y preparar la base de datos**
 
 1.- Importación de 3 data set a BigQuery: Se creó el proyecto en BigQuery con nombre Proyecto_Spotify, una vez creado el proyecto se realiza la importación de las tablas:
 
@@ -422,6 +422,11 @@ FROM
 ~~~
 
 > [!NOTE]
-> ![](imagenes/Cancion-Playlist.png)
+> ![](Imagenes/Cancion-Playlist.png)
 
+## **5.2 Análisis exploratorio**
 
+### Agrupar variables categóricas a través de tablas en Power BI
+
+Se conectó la información desde BigQuery a PowerBI para poder comenzar a trabajar.
+Se realizó una matriz con artista y número de tracks, así como una de tracks por año.
