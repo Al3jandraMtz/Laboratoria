@@ -120,7 +120,6 @@ FROM
 > [!NOTE]
 > RESULTADOS
 
-
 Query:
   ~~~
 WITH
