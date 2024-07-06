@@ -2,21 +2,17 @@
 
 ## Validación de hipótesis para el éxito de una canción.
 
-### **Objetivo:**
+### Temas
 
-Aumentar las posibilidades de éxito de la discográfica y del nuevo artista, mediante el análisis de una base de datos de Spotify, esto con la finalidad de refutar o confirmar las siguientes hipótesis:
-  
-    1.-Las canciones con un mayor BPM (Beats Por Minuto) tienen más éxito en términos de cantidad de streams en Spotify.
-  
-    2.-Las canciones más populares en el ranking de Spotify también tienen un comportamiento similar en otras plataformas como Deezer.
-  
-    3.-La presencia de una canción en un mayor número de playlists se relaciona con un mayor número de streams.
-  
-    4.- Los artistas con un mayor número de canciones en Spotify tienen más streams.
-  
-    5.-Las características de la canción influyen en el éxito en términos de cantidad de streams en Spotify.
+- [Introducción](#introducción)
+- [Herramientas](#herramientas)
+- [Procesamiento](#procesamiento)
+- [Validación de hipótesis](#validación-de-hipótesis)
+- [Resultados](#resultados)
+- [Conclusiones y recomendaciones](#conclusiones-y-recomendaciones)
 
-Y por último, proporcionar recomendaciones estratégicas basadas en los hallazgos. 
+## Introducción
+En un mundo en el que la industria musical es extremadamente competitiva y está en permanente evolución, la capacidad de tomar decisiones basadas en datos se ha convertido en un activo invaluable. En este contexto, una discográfica se enfrenta al emocionante desafío de lanzar un nuevo artista en el escenario musical global. Afortunadamente, cuenta con una herramienta poderosa en su arsenal: un extenso dataset de Spotify con información sobre las canciones más escuchadas en 2023. La discográfica planteó una serie de hipótesis sobre qué hace que una canción sea más escuchada, las que deberán ser analizadas para asegurar un lanzamiento exitoso.
 
 ### **Herramientas**
   + SQL
@@ -24,154 +20,158 @@ Y por último, proporcionar recomendaciones estratégicas basadas en los hallazg
   + PowerBI
   + Python
 
-## **5.1 Procesar y preparar la base de datos**
+## **Procesamiento**
 
-1.- Importación de 3 data set a BigQuery: Se creó el proyecto en BigQuery con nombre Proyecto_Spotify, una vez creado el proyecto se realiza la importación de las tablas:
+  ### **1.1 Limpieza de Datos**
 
-+ track_in_competition
-+ track_in_spotify. Se modifico el archivo en artist(s), se quitan los parentesis para poderlo subir.
-+ track_technical_info
+  1.- Importación de 3 data set a BigQuery: Se creó el proyecto en BigQuery con nombre Proyecto_Spotify, una vez creado el proyecto se realiza la importación de las tablas:
   
-2.- Identificar y manejar valores nulos: Se identificaron nulos a través de comandos SQL
+  + track_in_competition
+  + track_in_spotify. Se modifico el archivo en artist(s), se quitan los parentesis para poderlo subir.
+  + track_technical_info
+    
+  2.- Identificar y manejar valores nulos: Se identificaron nulos a través de comandos SQL
+  
+  + track_in_competition
+    + Track_id : 0 null
+    + in_apple_charts : 0 null
+    + in_apple_playlists: 0 nulls
+    + in_deezer_playlists: 0 nulls
+    + in_deezer_charts: 0 nulls
+    + in_shazam_charts: 50 nulls
+  + track_in_spotify
+    + track_in_spotify: 0 nulls
+    + track_name: 0 nulls
+    + artists_name: 0 nulls
+    + artist_count: 0 nulls
+    + released_year: 0 nulls
+    + released_month: 0 nulls
+    + released_day : 0 nulls
+    + in_spotify_playlists: 0 nulls
+    + in_spotify_playlists: 0 nulls
+    + streams: 0 nulls
 
-+ track_in_competition
-  + Track_id : 0 null
-  + in_apple_charts : 0 null
-  + in_apple_playlists: 0 nulls
-  + in_deezer_playlists: 0 nulls
-  + in_deezer_charts: 0 nulls
-  + in_shazam_charts: 50 nulls
-+ track_in_spotify
-  + track_in_spotify: 0 nulls
-  + track_name: 0 nulls
-  + artists_name: 0 nulls
-  + artist_count: 0 nulls
-  + released_year: 0 nulls
-  + released_month: 0 nulls
-  + released_day : 0 nulls
-  + in_spotify_playlists: 0 nulls
-  + in_spotify_playlists: 0 nulls
-  + streams: 0 nulls
+    Query:
+    ~~~
+     SELECT
+    COUNT (*)
+    FROM
+      `proyecto-1-spotify.Data_set.track_in_competition`
+    WHERE in_shazam_charts IS NULL
+     
+    ~~~
 
-Query:
-~~~
- SELECT
-COUNT (*)
-FROM
-  `proyecto-1-spotify.Data_set.track_in_competition`
-WHERE in_shazam_charts IS NULL
- 
-~~~
+  + track_technical_info
+    + track_id: 0 nulls
+    + bpm: 0 null
+    + key: 95 nulls
+    + mode: 0 nulls
+    + danceability_%: o nulls
+    + valence_%: 0 nulls
+    + energy_%: 0 null
+    + acousticness_%: 0 null
+    + instrumentalness_%: 0 null
+    + liveness_%: 0 null
+    + speechiness_%: 0 null
 
-+ track_technical_info
-  + track_id: 0 nulls
-  + bpm: 0 null
-  + key: 95 nulls
-  + mode: 0 nulls
-  + danceability_%: o nulls
-  + valence_%: 0 nulls
-  + energy_%: 0 null
-  + acousticness_%: 0 null
-  + instrumentalness_%: 0 null
-  + liveness_%: 0 null
-  + speechiness_%: 0 null
+    Query (Buscar en todas las columnas)
+    ~~~
+    SELECT
+    COUNT (*)
+    FROM
+      `proyecto-1-spotify.Data_set.track_technical_info`
+    WHERE
+    track_id IS NULL
+    OR bpm IS NULL
+    OR key IS NULL
+    OR mode IS NULL
+    OR 'danceability_%' IS NULL
+    OR "valence_%" IS NULL
+    or "energy_%" IS NULL
+    OR "acousticness_%" IS NULL
+    OR "instrumentalness_%" IS NULL
+    OR "liveness_%" IS NULL
+    OR "speechiness_%" IS NULL
+     
+    ~~~
 
-Query (Buscar en todas las columnas)
-~~~
-SELECT
-COUNT (*)
-FROM
-  `proyecto-1-spotify.Data_set.track_technical_info`
-WHERE
-track_id IS NULL
-OR bpm IS NULL
-OR key IS NULL
-OR mode IS NULL
-OR 'danceability_%' IS NULL
-OR "valence_%" IS NULL
-or "energy_%" IS NULL
-OR "acousticness_%" IS NULL
-OR "instrumentalness_%" IS NULL
-OR "liveness_%" IS NULL
-OR "speechiness_%" IS NULL
- 
-~~~
+    Query (Obtención de nulos en la nueva columna)
+    ~~~
+    SELECT
+      COUNTIF(track_id IS NULL) AS track_id_nulos,
+      COUNTIF(track_name IS NULL) AS track_name_nulos,
+      COUNTIF(artists_name IS NULL) AS artists_name_nulos,
+      COUNTIF(artist_count IS NULL) AS artist_count_nulos,
+      COUNTIF(released_month IS NULL) AS released_month_nulos,
+      COUNTIF(released_day IS NULL) AS released_day_nulos,
+      COUNTIF(in_spotify_playlists IS NULL) AS in_spotify_playlists_nulos,
+      COUNTIF(streams IS NULL) streams_nulos,
+    FROM
+     
+    ~~~
 
-Query (Obtención de nulos en la nueva columna)
-~~~
-SELECT
-  COUNTIF(track_id IS NULL) AS track_id_nulos,
-  COUNTIF(track_name IS NULL) AS track_name_nulos,
-  COUNTIF(artists_name IS NULL) AS artists_name_nulos,
-  COUNTIF(artist_count IS NULL) AS artist_count_nulos,
-  COUNTIF(released_month IS NULL) AS released_month_nulos,
-  COUNTIF(released_day IS NULL) AS released_day_nulos,
-  COUNTIF(in_spotify_playlists IS NULL) AS in_spotify_playlists_nulos,
-  COUNTIF(streams IS NULL) streams_nulos,
-FROM
- 
-~~~
+  3.- Identificar Duplicados: Se han identificado duplicados a través de comandos SQL
+    + track_in_competition: Sin duplicados
+    + tranck_in_spotiffy: Presenta Duplicados
+    + track_technical_info: Sin duplicados
+     
+  > [!NOTE]
+  > RESULTADOS
+  > ![](Imagenes/Duplicados.png)
 
-3.- Identificar Duplicados: Se han identificado duplicados a través de comandos SQL
-  + track_in_competition: Sin duplicados
-  + tranck_in_spotiffy: Presenta Duplicados
-  + track_technical_info: Sin duplicados
-   
-> [!NOTE]
-> RESULTADOS
-> ![](Imagenes/Duplicados.png)
+  Query:
+   ~~~   
+    WITH
+      duplicados AS (
+      SELECT
+        track_name,
+        artists_name,
+        COUNT(*) AS duplicado
+      FROM
+        `proyecto-1-spotify.Data_set.track_in_spotify`
+      GROUP BY
+        track_name,
+        artists_name
+      HAVING
+        COUNT(*) > 1 )
+    SELECT
+      track_name,
+      artists_name,
+      duplicado
+    FROM
+      duplicados
+    ~~~
 
-Query:
-  ~~~
-WITH
-  duplicados AS (
-  SELECT
-    track_name,
-    artists_name,
-    COUNT(*) AS duplicado
-  FROM
-    `proyecto-1-spotify.Data_set.track_in_spotify`
-  GROUP BY
-    track_name,
-    artists_name
-  HAVING
-    COUNT(*) > 1 )
-SELECT
-  track_name,
-  artists_name,
-  duplicado
-FROM
-  duplicados
-~~~
+  Query basico:
+    ~~~
+    SELECT
+        track_name,
+        artists_name,
+        COUNT(*) AS duplicado
+      FROM
+        `proyecto-1-spotify.Data_set.track_in_spotify`
+      GROUP BY
+        track_name,
+        artists_name
+      HAVING
+        COUNT(*) > 1 
+     ~~~
 
-Query basico:
-  ~~~
-SELECT
-    track_name,
-    artists_name,
-    COUNT(*) AS duplicado
-  FROM
-    `proyecto-1-spotify.Data_set.track_in_spotify`
-  GROUP BY
-    track_name,
-    artists_name
-  HAVING
-    COUNT(*) > 1 
-~~~
+  4.- Eliminar valores fuera del alcance del análisis: Se han manejado datos fuera del alcance a través de comandos SQL.
+  
+    + track_in_competition: Se considero que necesitariamos todos los datos para analizar las hipotesis solicitadas.
+    + track_in_spotify: Se considero que necesitariamos todos los datos para analizar las hipotesis solicitadas.
+    + track_in_technical_info: Se llego a al conclusión de que key y mode no serian utiles para el analisis que estamos realizando.
 
-4.- Eliminar valores fuera del alcance del análisis: Se han manejado datos fuera del alcance a través de comandos SQL.
 
-  + track_in_competition: Se considero que necesitariamos todos los datos para analizar las hipotesis solicitadas.
-  + track_in_spotify: Se considero que necesitariamos todos los datos para analizar las hipotesis solicitadas.
-  + track_in_technical_info: Se llego a al conclusión de que key y mode no serian utiles para el analisis que estamos realizando.
 
-Query:
-  ~~~
-SELECT
-* EXCEPT (key, mode)
-FROM
-  `proyecto-1-spotify.Data_set.track_technical_info`
-~~~
+    Query:
+      ~~~
+    SELECT
+    * EXCEPT (key, mode)
+    FROM
+      `proyecto-1-spotify.Data_set.track_technical_info`
+    ~~~
 
 5.- Identificar y manejar datos discrepantes en variables categóricas: Se han identificado y manejado datos discrepantes (simbolos) en variables numéricas a través de comandos SQL.
   + track_in_competition: Sin datos discrepantes
@@ -424,9 +424,566 @@ FROM
 > [!NOTE]
 > ![](Imagenes/Cancion-Playlist.png)
 
+
 ## **5.2 Análisis exploratorio**
 
-### Agrupar variables categóricas a través de tablas en Power BI
+1.-Agrupar variables categóricas a través de tablas en Power BI: Se conectó la información desde BigQuery a PowerBI para poder comenzar a trabajar, asi como tambien se realizó una matriz con artista y número de tracks, así como una de tracks por año.
 
-Se conectó la información desde BigQuery a PowerBI para poder comenzar a trabajar.
-Se realizó una matriz con artista y número de tracks, así como una de tracks por año.
+> [!NOTE]
+> ![](Imagenes/3.png)
+
+2.- Visualizar las variables categóricas: Se realizaron los gráficos de las matrices anteriores, artista y número de tracks, así como una de tracks por año.
+
+> [!NOTE]
+> ![](Imagenes/4.png)
+
+3.- Aplicar medidas de tendencia central y medidas de dispersión.
+
+> [!NOTE]
+> ![](Imagenes/5.png)
+
+4.- Visualizar distribución: Se crearon dos un Histogramas en PowerBi atravez de Python
+
+> [!NOTE]
+> ![](Imagenes/6.png)
+
+Interpretación: La gráfica de histograma muestra la distribución de frecuencias de los beats por minuto (BPM) en un conjunto de datos. Los valores en el eje horizontal representan rangos de BPM, y las barras azules verticales indican cuántas veces ocurren esos BPM dentro del conjunto de datos. Aquí hay algunos puntos clave:
+  +  Rango de BPM: Los BPM varían aproximadamente entre 75 y 200.
+  +  Frecuencia más alta: Hay una mayor concentración de datos en los rangos de BPM más bajos.
+  +  Distribución: La frecuencia disminuye a medida que aumenta el BPM, lo que sugiere que hay menos canciones con BPM altos.
+Esto podría indicar que las canciones con BPM más lentos son más comunes o preferidas en el conjunto de datos analizado.
+
+Consulta:
+~~~
+ # Pegue o escriba aquí el código de script:
+import matplotlib.pyplot as plt
+import pandas as pd
+# Obtén los datos de Power BI
+data = dataset [['bpm']]
+# Crea el histograma
+plt.hist(data, bins=10, color='blue', alpha=0.7)
+plt.xlabel('Valor')
+plt.ylabel('Frecuencia')
+plt.title('Histograma')
+# Muestra el histograma
+plt.show()
+~~~
+
+> [!NOTE]
+> ![](Imagenes/7.png)
+
+Interpretación: Muestra la frecuencia de playlists según una variable no especificada en el eje x. La mayoría de las playlists se concentran en el primer intervalo, con más de 500 ocurrencias, lo que indica que hay una gran cantidad de playlists con valores bajos en esta variable. La frecuencia disminuye drásticamente en los intervalos siguientes, sugiriendo que hay muy pocas playlists con valores altos.
+
+Consulta:
+~~~
+# El código siguiente, que crea un dataframe y quita las filas duplicadas, siempre se ejecuta y actúa como un preámbulo del script: 
+# dataset = pandas.DataFrame(artist_count, Año)
+# dataset = dataset.drop_duplicates()
+# Pegue o escriba aquí el código de script:
+# Pegue o escriba aquí el código de script:
+import matplotlib.pyplot as plt
+import pandas as pd
+# Obtén los datos de Power BI
+data = dataset [['total_playlist']]
+# Crea el histograma
+plt.hist(data, bins=10, color='blue', alpha=0.7)
+plt.xlabel('Valor')
+plt.ylabel('Frecuencia')
+plt.title('Histograma')
+# Muestra el histograma
+plt.show()
+~~~
+
+5.- Visualizar el comportamiento de los datos a lo largo del tiempo: Se crearon gráficos de líneas para medir el comportamiento de canciones y streams a lo largo del tiempo.
+
+Gráfica de lanzamiento de canciones por año
+
+> [!NOTE]
+> ![](Imagenes/8.png)
+
+Gráfica de total Streams (veces que se reproduce una canción por año)
+
+> [!NOTE]
+> ![](Imagenes/9.png)
+
+6.- Calcular cuartiles, deciles o percentiles.
+
+Consulta
+~~~
+ WITH Quartiles AS (
+  SELECT
+    streams_limpio,
+    `danceability_%`,
+    `valence_%`,
+    `acousticness_%`,
+    `instrumentalness_%`,
+    `liveness_%`,
+    `speechiness_%`,
+   
+    NTILE(4) OVER (ORDER BY streams_limpio) AS quartile_streams,
+    NTILE(4) OVER (ORDER BY bpm) AS quartile_bpm,
+    NTILE(4) OVER (ORDER BY `danceability_%`) AS quartile_danceability,
+    NTILE(4) OVER (ORDER BY `valence_%`) AS quartile_valence,
+    NTILE(4) OVER (ORDER BY `energy_%`) AS quartile_energy,
+    NTILE(4) OVER (ORDER BY `acousticness_%`) AS quartile_acousticness,
+    NTILE(4) OVER (ORDER BY `instrumentalness_%`) AS quartile_instrumentalness,
+    NTILE(4) OVER (ORDER BY `liveness_%`) AS quartile_liveness,
+    NTILE(4) OVER (ORDER BY `speechiness_%`) AS quartile_speechiness
+   
+  FROM
+    `proyectospotify-426316.dataset.dataset_limpio2`
+)
+SELECT
+  a.*,
+   IF(Quartiles.quartile_streams = 4, "alto", "bajo") AS cat_streams,
+  IF(Quartiles.quartile_danceability = 4, "alto", "bajo") AS cat_danceability,
+   IF(Quartiles.quartile_valence = 4, "alto", "bajo") AS cat_valence,
+    IF(Quartiles.quartile_energy = 4, "alto", "bajo") AS cat_energy,
+     IF(Quartiles.quartile_acousticness = 4, "alto", "bajo") AS cat_acousticness,
+      IF(Quartiles.quartile_instrumentalness = 4, "alto", "bajo") AS cat_instrumentalness,
+       IF(Quartiles.quartile_liveness = 4, "alto", "bajo") AS cat_liveness,
+        IF(Quartiles.quartile_speechiness = 4, "alto", "bajo") AS cat_speechiness,
+        IF(Quartiles.quartile_bpm = 4, "alto", "bajo") AS cat_bpm
+FROM
+  `proyectospotify-426316.dataset.dataset_limpio2` a
+LEFT JOIN
+  Quartiles
+ON
+  a.streams_limpio = Quartiles.streams_limpio
+  AND a.`danceability_%` = Quartiles.`danceability_%`
+~~~
+
+> [!NOTE]
+> ![](Imagenes/10.png)
+
+7.- Calcular correlación entre variables: En esta tabla se puede observar la relación de dos variables, mismas que ayudan a refutar y/o confirmar las hipótesis.
+
+    1.	Streams_bpm -	Correlación de Person =	-0.002336203587	Hipotesis 1
+    2.	Spotify_deezer -	Correlación de Person =	0.8265205293	Hipotesis 2
+    3.	Spotify_apple -	Correlación de Person =	0.7094150641	Hipotesis 2
+    4.	Spotify_shazam -	Correlación de Person =	0.605558724	Hipotesis 2
+    5.	Streams_playlist -	Correlación de Person =	0.7945887636	Hipotesis 3
+    6.	Streams_danceability -	Correlación de Person =	-0.1055011641	Hipotesis 5
+    7.	Streams_valence -	Correlación de Person =	-0.04137056374	Hipotesis 5
+    8.	Streams_energy -	Correlación de Person =	-0.02562682282	Hipotesis 5
+    9.	Streams_acousticness -	Correlación de Person =	-0.005273704747	Hipotesis 5
+    10. Streams_instrumentalness -	Correlación de Person =	-0.04423448901	Hipotesis 5
+    11. Streams_liveness -	Correlación de Person =	-0.04948068049	Hipotesis 5
+    12. Streams_speechiness -	Correlación de Person =	-0.1127631697	Hipotesis 5
+    13. Total_canciones -	Correlación de Person =	0.802711348	Hipotesis 4
+
+Consulta
+~~~
+  --Hipótesis
+  CORR(streams_limpio,bpm)AS correlation_streams_bpm,
+  --Hipótesis
+  CORR(in_spotify_charts,in_deezer_charts) AS correlation_spotify_deezer_charts,
+  CORR(in_spotify_charts,in_apple_charts) AS correlation_spotify_apple_charts,
+  CORR(in_spotify_charts,in_shazam_charts) AS correlation_spotify_shazam_charts,
+  --Hipotesis 3
+  CORR(streams_limpio, total_playlist) AS correlation_streams_playlist,
+  --Hipótesis 5
+  CORR(streams_limpio, `danceability_%`) AS correlation_streams_danceability,
+  CORR(streams_limpio, `valence_%`) AS correlation_streams_valence,
+  CORR(streams_limpio, `energy_%`) AS correlation_streams_energy,
+  CORR(streams_limpio, `acousticness_%`) AS correlation_streams_acousticness,
+  CORR(streams_limpio, `instrumentalness_%`) AS correlation_streams_instrumentalness,
+  CORR(streams_limpio, `liveness_%`) AS correlation_streams_liveness,
+  CORR(streams_limpio, `speechiness_%`) AS correlation_streams_speechiness,
+  FROM
+     `proyecto-1-spotify.Data_set.Data_Set3`
+;
+SELECT
+     --Hipotesis 4
+     CORR (total_canciones, total_streams) AS conrrelation_streams_total_canciones_por_artista,
+     FROM
+     proyecto-1-spotify.Data_set.Solistas_canciones_streams
+~~~
+
+## **5.3 Técnica de análisis**
+ 
+### Aplicar segmentación
+
+Realizamos una tabla matriz con las categorías creadas a través de los cuartiles para las características de la canción en relación con la variable streams.
+
+> [!NOTE]
+> ![](Imagenes/12.png)
+
+## **5.4 Pruebas de Significancia en Google Colab**
+
+  1. Plantear una hipótesis H0 y H1
+    + Hipótesis nula: Las canciones con un mayor BPM (Beats Por Minuto) tienen más éxito en términos de streams en Spotify
+    + Hipótesis Alternativa:
+  2. Elegir nivel de confianza y por tanto el Alpha
+    + 95% de confianza (0.95)
+    + 5% Alpha (0.05)
+  3. Elegir el estadístico de contraste adecuado a la prueba y calcular el P valor
+    + P valor: aplicando la prueba, el valor que devuelve es el p valor.
+  4. Comparar el P valor  con el Alpha y concluir si aceptamos o rechazamos la H0
+    + Si el p valor es menor que el alpha se puede rechazar la hipótesis nula y aceptar la hipótesis alternativa
+    + Si el p valor es mayor que el alpha no se puede rechazar la hipótesis nula.
+
+Diferencia entre los streams promedio de cada grupo (alto y bajo)
+
+> [!NOTE]
+> ![](Imagenes/13.png)
+
+Interpretación: 
+  + Estadístico t y valor p: La prueba t nos dice que las medias de BPM en los grupos de canciones con muchos streams (alto) y pocos streams (bajo) son prácticamente iguales. El valor p tan alto (0.966)       nos dice que la diferencia es insignificante, es decir, no podemos decir con confianza que los BPM difieren entre los dos grupos.
+  + Estadístico U y valor p: La prueba de Mann-Whitney nos dice algo similar, pero en lugar de comparar solo las medias, compara las distribuciones completas de BPM entre los dos grupos. El resultado nos     dice que las distribuciones de BPM en canciones con muchos streams y pocas streams también son prácticamente iguales. Nuevamente, el valor p alto (0.966) nos dice que la diferencia no es significativa.
+En resumen, según estos resultados, la cantidad de streams (si es alta o baja) no parece influir en el BPM de las canciones.
+
+
+Consulta: 
+~~~
+// # Autenticación
+from google.colab import auth
+auth.authenticate_user()
+print('Authenticated')
+# Importación de librerías necesarias
+from google.cloud import bigquery
+import pandas as pd
+from scipy.stats import ttest_ind, mannwhitneyu
+# Definición del project_id
+project_id = 'proyectospotify-426316'
+client = bigquery.Client(project=project_id)
+# Definición del dataset
+dataset = 'dataset'
+table = 'dataset3'
+# Consulta SQL
+query = f"""
+SELECT *
+FROM {project_id}.{dataset}.{table}
+"""
+# Ejecutar la consulta y convertir los resultados en un dataframe
+df = client.query(query).to_dataframe()
+# Mostrar las primeras filas del Dataframe
+print(df.head())
+# Transformar las columnas 'cat_streams' y 'cat_bpm' de string a numéricas
+stream_mapping = {'bajo': 1, 'alto': 4}
+bpm_mapping = {'bajo': 1,'alto': 4}
+
+
+df['cuartiles_streams'] = df['cat_streams'].map(stream_mapping)
+df['cuartiles_bpm'] = df['cat_bpm'].map(bpm_mapping)
+
+
+# Asegurarse de que no haya valores nulos en las columnas que se van a usar
+df = df.dropna(subset=['cuartiles_streams', 'cuartiles_bpm'])
+
+
+# Filtrar los grupos en función de los cuartiles
+grupo_alto_bpm = df[df['cuartiles_streams'] == 4]['cuartiles_bpm']
+grupo_bajo_bpm = df[df['cuartiles_streams'] == 1]['cuartiles_bpm']
+
+
+# Verificar el contenido de los grupos
+print(f'Número de tracks en el grupo alto BPM: {len(grupo_alto_bpm)}')
+print(f'Número de tracks en el grupo bajo BPM: {len(grupo_bajo_bpm)}')
+print(f'Grupo alto BPM:\n{grupo_alto_bpm.describe()}')
+print(f'Grupo bajo BPM:\n{grupo_bajo_bpm.describe()}')
+
+
+# Prueba t de Student
+stat_t, p_value_t = ttest_ind(grupo_alto_bpm, grupo_bajo_bpm, equal_var=False)
+
+
+print(f'Test t - Estadístico t: {stat_t}')
+print(f'Test t - Valor p: {p_value_t}')
+
+
+# Prueba U de Mann-Whitney
+stat_u, p_value_u = mannwhitneyu(grupo_alto_bpm, grupo_bajo_bpm, alternative='two-sided')
+
+
+print(f'Wilcoxon (Mann-Whitney U) - Estadístico U: {stat_u}')
+print(f'Wilcoxon (Mann-Whitney U) - Valor p: {p_value_u}')
+~~~
+
+Diferencia entre las características (alto y bajo).
+
+> [!NOTE]
+> ![](Imagenes/14.png)
+
+Interpretación: Las gráficas muestran comparaciones de densidad para diferentes categorías musicales, cada una con dos curvas que representan distintos niveles de actividad de streams. Las curvas azules y marrones podrían indicar diferencias en la distribución de las métricas entre todos los streams y los más activos. Estas visualizaciones son útiles para analizar cómo varían estas características musicales en relación con la actividad de streaming y pueden proporcionar información valiosa para estrategias de marketing y producción musical.
+
+Interpretación de las hipótesis
+
+> [!NOTE]
+> ![](Imagenes/15.png)
+
+Consulta: 
+~~~
+//# Realizar Autenticación si es necesario
+from google.colab import auth
+auth.authenticate_user()
+print('Authenticated')
+
+# Importar librerías necesarias
+import pandas as pd
+import scipy.stats as stats
+from google.cloud import bigquery
+from statsmodels.formula.api import ols
+from scipy.stats import ttest_ind, mannwhitneyu
+import numpy as np
+
+# Inicializar el cliente de BigQuery
+project_id = 'proyecto-1-spotify'
+client = bigquery.Client(project=project_id)
+
+# Define tu proyecto, dataset y tabla aquí
+project_id = "proyecto-1-spotify"
+dataset = "Data_set"
+table = "Data_Set3"
+
+# Consulta SQL
+query = f"""
+SELECT *
+FROM {project_id}.{dataset}.{table}
+"""
+
+# Ejecutar la consulta y convertir los resultados en un DataFrame
+df = client.query(query).to_dataframe()
+
+# Definir el nivel de confianza Alpha (6.2 Testes de significancia Caracteristicas 1.1)
+alpha = 0.05
+
+# Streams por categoría de cuartiles
+streams_alto_dance = df[df['cat_danceability'] == 'alto']['streams_limpio'].tolist()
+streams_bajo_dance = df[df['cat_danceability'] == 'bajo']['streams_limpio'].tolist()
+
+# Calcular promedios por categoría
+avg_streams_alto = np.mean(streams_alto_dance)
+avg_streams_bajo = np.mean(streams_bajo_dance)
+
+#Analizar por categoria
+#DANCEABILITY
+# Test T
+print("Resultados de Danceability")
+statistic_ttest, p_value_ttest = ttest_ind(streams_alto_dance, streams_bajo_dance, equal_var=False)
+print("Test T")
+print("Estadística T:", statistic_ttest)
+print("Valor p:", p_value_ttest)
+
+print("\n Resultado del Test T:")
+if p_value_ttest < alpha:
+    print("Se rechaza la hipótesis nula: Existe una diferencia significativa entre las categorías 'alto' y 'bajo'")
+else:
+    print("No se puede rechazar la hipótesis nula: No hay una diferencia significativa entre las categorías 'alto' y 'bajo'")
+print()
+# Test de Wilcoxon (Mann-Whitney U)
+statistic_mannwhitneyu, p_value_mannwhitneyu = mannwhitneyu(streams_alto_dance, streams_bajo_dance, alternative='two-sided')
+print("Test de Wilcoxon (Mann-Whitney U)")
+print("Estadística U:", statistic_mannwhitneyu)
+print("Valor p:", p_value_mannwhitneyu)
+print()
+
+print("\n Resultado Test Wilcoxon:")
+if p_value_ttest < alpha:
+    print("Se rechaza la hipótesis nula: Existe una diferencia significativa entre las categorías 'alto' y 'bajo'")
+else:
+    print("No se puede rechazar la hipótesis nula: No hay una diferencia significativa entre las categorías 'alto' y 'bajo'")
+
+#Interpretacion
+print("\nInterpretación del Test de Wilcoxon (Mann-Whitney U):")
+if p_value_mannwhitneyu < alpha:
+    print("Se rechaza la hipótesis nula: Existe una diferencia significativa entre las categorías 'alto' y 'bajo'")
+else:
+    print("No se puede rechazar la hipótesis nula: No hay una diferencia significativa entre las categorías 'alto' y 'bajo'")
+~~~
+
+Consulta: (General todas las características)
+~~~
+// #Importa las librerias necesarias (6.2 Testes de significancia caracteristicas completas)
+import pandas as pd
+import scipy.stats as stats
+from google.cloud import bigquery
+from scipy.stats import ttest_ind, mannwhitneyu
+import matplotlib.pyplot as plt
+import seaborn as sns
+import math
+
+#Configuracion del BigQuery
+project_id = 'proyecto-1-spotify'
+client = bigquery.Client(project=project_id)
+
+# Define tu proyecto, dataset y tabla aquí
+dataset = "Data_set"
+view = "Data_Set3"
+
+#Configuracion SQL
+query = f"""
+SELECT * FROM `{project_id}.{dataset}.{view}`
+"""
+
+
+# Ejecutar la consulta y convertir los resultados en un DataFrame
+df = client.query(query).to_dataframe()
+
+#Imprimir los encabezados
+display(df.head())
+
+#Define cómo transformar las categorías 'alto' y 'bajo' en valores numéricos
+transform_map = {'alto': 2, 'bajo': 1}
+
+#Se aplica transformacion a las columnas categoricas especificadas
+categorical_columns = ['cat_streams', 'cat_danceability', 'cat_valence', 'cat_energy', 'cat_acousticness', 'cat_instrumentalness', 'cat_liveness', 'cat_speechiness']
+for column in categorical_columns:
+    df[column] = df[column].map(transform_map)
+
+results = []
+
+characteristics = ['cat_danceability', 'cat_valence', 'cat_energy', 'cat_acousticness', 'cat_instrumentalness', 'cat_liveness', 'cat_speechiness']
+
+for characteristic in characteristics:
+    if characteristic in df.columns:
+        df_filtered = df.dropna(subset=['cat_streams', characteristic])
+        
+        grupo_alto = df_filtered[df_filtered['cat_streams'] == 2][characteristic]
+        grupo_bajo = df_filtered[df_filtered['cat_streams'] == 1][characteristic]
+        
+        if grupo_alto.count() == 0 or grupo_bajo.count() == 0:
+            print(f'Se omite {characteristic} debido a un grupo vacío.')
+            continue
+        
+        stat_t, p_value_t = ttest_ind(grupo_alto, grupo_bajo, equal_var=False)
+        stat_t = round(stat_t, 4)
+        p_value_t = round(p_value_t, 4)
+        
+        stat_u, p_value_u = mannwhitneyu(grupo_alto, grupo_bajo, alternative='two-sided')
+        stat_u = round(stat_u, 4)
+        p_value_u = round(p_value_u, 4)
+        
+        if p_value_t < 0.05 or p_value_u < 0.05:
+            influencia = f"{characteristic} influye positivamente"
+        elif p_value_t > 0.05 and p_value_u > 0.05:
+            influencia = f"{characteristic} no influye"
+        else:
+            influencia = f"{characteristic} influye negativamente"
+        
+        if abs(stat_t) < 1:
+            interpretacion_stat = "medidas similares"
+        else:
+            interpretacion_stat = "mucha diferencia"
+
+        if p_value_t < 0.05:
+            interpretacion_p_value_t = "diferencia no por azar"
+        else:
+            interpretacion_p_value_t = "diferencia por azar"
+
+        if stat_u > len(grupo_alto) * len(grupo_bajo) / 2 + 1.96 * (len(grupo_alto) * len(grupo_bajo) * (len(grupo_alto) + len(grupo_bajo) + 1) / 12)**0.5:
+            interpretacion_u_stat = "diferencias alta"
+        elif stat_u < len(grupo_alto) * len(grupo_bajo) / 2 - 1.96 * (len(grupo_alto) * len(grupo_bajo) * (len(grupo_alto) + len(grupo_bajo) + 1) / 12)**0.5:
+            interpretacion_u_stat = "diferencias baja"
+        else:
+            interpretacion_u_stat = "distribuciones similares"
+
+        if p_value_u < 0.05:
+            interpretacion_p_value_u = "estadísticamente significativo"
+        else:
+            interpretacion_p_value_u = "no hay suficiente evidencia"
+
+        results.append({
+            'caracteristica': characteristic,
+            't_stat': stat_t,
+            't_p_value': p_value_t,
+            'interpretacion_stat': interpretacion_stat,
+            'interpretacion_p_value_t': interpretacion_p_value_t,
+            'u_stat': stat_u,
+            'interpretacion_u_stat': interpretacion_u_stat,
+            'u_p_value': p_value_u,
+            'interpretacion_p_value_u': interpretacion_p_value_u,
+            'resultado': influencia
+        })
+
+num_cols = 3
+num_rows = math.ceil(len(results) / num_cols)
+
+fig, axs = plt.subplots(num_rows, num_cols, figsize=(18, 6 * num_rows))
+
+for idx, row in enumerate(results):
+    ax = axs[idx // num_cols, idx % num_cols]
+    sns.kdeplot(df[df['cat_streams'] == 2][row['caracteristica']], fill=True, label='Alto', ax=ax)
+    sns.kdeplot(df[df['cat_streams'] == 1][row['caracteristica']], fill=True, label='Bajo', ax=ax)
+    ax.set_title(f'Gráfico de Densidad de {row["caracteristica"]} según cat_streams')
+    ax.set_xlabel(row["caracteristica"])
+    ax.set_ylabel('Densidad')
+    ax.legend()
+
+for i in range(len(results), num_rows * num_cols):
+    fig.delaxes(axs.flatten()[i])
+
+plt.tight_layout()
+plt.show()
+
+results_df = pd.DataFrame(results)
+pd.options.display.max_colwidth = None
+display(results_df[['caracteristica', 't_stat', 't_p_value', 'interpretacion_stat', 'interpretacion_p_value_t', 'u_stat', 'interpretacion_u_stat', 'u_p_value', 'interpretacion_p_value_u', 'resultado']])
+
+# Crear un mapeo de valores numéricos a nombres
+cat_danceability_map = {2: 'alto', 1: 'bajo'}
+print()
+
+#(6.3 Tabla resumen agrupada por la variable categórica)
+# Tabla resumen de estadísticas
+resumen_danceability = df[df['cat_danceability'].isin([2, 1])].groupby('cat_danceability').agg({
+    'streams_limpio': ['mean', 'count', 'median', 'std', 'min', 'max'],
+    'danceability_%': ['mean', 'count', 'median', 'std', 'min', 'max'],
+    'valence_%': ['mean', 'count', 'median', 'std', 'min', 'max'],
+    'energy_%': ['mean', 'count', 'median', 'std', 'min', 'max'],
+    'acousticness_%': ['mean', 'count', 'median', 'std', 'min', 'max'],
+    'instrumentalness_%': ['mean', 'count', 'median', 'std', 'min', 'max'],
+    'liveness_%': ['mean', 'count', 'median', 'std', 'min', 'max'],
+    'speechiness_%': ['mean', 'count', 'median', 'std', 'min', 'max']
+})
+
+# Renombrar el índice de la agrupación
+resumen_danceability.rename(index=cat_danceability_map, inplace=True)
+
+# Transponer la tabla para mostrar de manera adecuada
+resumen_danceability = resumen_danceability.T
+
+# Mostrar el resumen
+display(resumen_danceability)
+~~~
+
+Características musicales en base a las medidas de tendencia central de Streams
+
+> [!NOTE]
+> ![](Imagenes/16.png)
+>
+> > [!NOTE]
+> ![](Imagenes/17.png)
+
+Interpretación:  presenta estadísticas descriptivas de diferentes características musicales como tempo, energía, danceability, loudness, valence y acousticness. Para cada característica, se muestran la cantidad, media, mediana y desviación estándar basadas en los datos de streams. Estos datos son útiles para analizar patrones en el comportamiento y preferencias de streaming musical.
+    + Tiempo: Velocidad o ritmo de la música.
+    + Energía: Intensidad y actividad percibida.
+    + Danceability: Facilidad con la que se puede bailar al ritmo de la música.
+    + Loudness: Volumen general de la música.
+    + Valence: Positividad transmitida por la música.
+    + Acousticness: Nível de acústica o sonidos no amplificados.
+La tabla ayuda a comprender cómo estas características influyen en la cantidad de streams que recibe una canción.
+
+
+Regresión lineal
+
+Validar hipótesis
+
+Hipótesis 1
+Las canciones con un mayor BPM (Beats Por Minuto) tienen más éxito en términos de streams en Spotify.
+
+poner foto
+
+Hipótesis 2
+Las canciones más populares en el ranking de Spotify también tienen un comportamiento similar en otras plataformas como Deezer
+
+Hipótesis 3
+La presencia de una canción en un mayor número de playlists se relaciona con un mayor número de streams.
+
+Hipótesis 4
+Los artistas con un mayor número de canciones en Spotify tienen más streams.
+
+Hipótesis 5
+Las características de la canción influyen en el éxito en términos de streams en Spotify.
+
+
