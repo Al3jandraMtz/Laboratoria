@@ -1,4 +1,4 @@
-# **Spotify**
+# **Industria Musical**
 
 ## Validación de hipótesis para el éxito de una canción.
 
@@ -8,11 +8,13 @@
 - [Herramientas](#herramientas)
 - [Procesamiento](#procesamiento)
 - [Validación de hipótesis](#validación-de-hipótesis)
-- [Resultados](#resultados)
-- [Conclusiones y recomendaciones](#conclusiones-y-recomendaciones)
+- [Conclusiónes](#Conclusiónes)
+- [Recomendaciones](#Recomendaciones)
 
 ## Introducción
 En un mundo en el que la industria musical es extremadamente competitiva y está en permanente evolución, la capacidad de tomar decisiones basadas en datos se ha convertido en un activo invaluable. En este contexto, una discográfica se enfrenta al emocionante desafío de lanzar un nuevo artista en el escenario musical global. Afortunadamente, cuenta con una herramienta poderosa en su arsenal: un extenso dataset de Spotify con información sobre las canciones más escuchadas en 2023. La discográfica planteó una serie de hipótesis sobre qué hace que una canción sea más escuchada, las que deberán ser analizadas para asegurar un lanzamiento exitoso.
+
+![](Imagenes/algoritmo-de-Spotify.jpg)
 
 ### **Herramientas**
   + SQL
@@ -966,8 +968,8 @@ En un mundo en el que la industria musical es extremadamente competitiva y está
   
   > [!NOTE]
   > ![](Imagenes/16.png)
-  >
-  > > [!NOTE]
+  
+  > [!NOTE]
   > ![](Imagenes/17.png)
   
   Interpretación:  
@@ -1142,21 +1144,125 @@ else:
     
 ## **Validación de hipótesis**
 
-Hipótesis 1
-Las canciones con un mayor BPM (Beats Por Minuto) tienen más éxito en términos de streams en Spotify.
+  Hipótesis 1
+  Las canciones con un mayor BPM (Beats Por Minuto) tienen más éxito en términos de streams en Spotify.
 
-poner foto
+  Hipótesis 2
+  Las canciones más populares en el ranking de Spotify también tienen un comportamiento similar en otras plataformas como Deezer
+  
+  Hipótesis 3
+  La presencia de una canción en un mayor número de playlists se relaciona con un mayor número de streams.
+  
+  Hipótesis 4
+  Los artistas con un mayor número de canciones en Spotify tienen más streams.
+  
+  Hipótesis 5
+  Las características de la canción influyen en el éxito en términos de streams en Spotify.
 
-Hipótesis 2
-Las canciones más populares en el ranking de Spotify también tienen un comportamiento similar en otras plataformas como Deezer
+## **Resuktados**
 
-Hipótesis 3
-La presencia de una canción en un mayor número de playlists se relaciona con un mayor número de streams.
+  **Hipótesis 1**
 
-Hipótesis 4
-Los artistas con un mayor número de canciones en Spotify tienen más streams.
+  > [!NOTE]
+  > ![](Imagenes/H1.png)
+  > ![](Imagenes/18.png)
 
-Hipótesis 5
-Las características de la canción influyen en el éxito en términos de streams en Spotify.
+  Se refuta hipótesis: No hay una relación lineal significativa entre BPM y streams, por lo que se determina que estas variables no influyen directamente en el éxito de una canción.
+  
+  **Hipótesis 2**
+  
+   > [!NOTE]
+   > ![](Imagenes/h2.png)
+  
+  Se valida hipótesis: El estudio demuestra que existe una correlación positiva entre las variables, por lo que se determina qué las canciones que son más populares en Spotify tienen a tener el mismo       comportamiento en otras plataformas como Deezer y Apple Music.
+  
+  **Hipótesis 3**
 
+  > [!NOTE]
+  > ![](Imagenes/H3.png)
+  > ![](Imagenes/19.png)
+
+  Se valida hipótesis: El estudio demuestra que existe  una relación positiva entre el total de playlists y los streams. , por lo que se determina que tener más playlists puede ayudar a incrementar los     streams de las canciones.
+  
+  **Hipótesis 4**
+
+  > [!NOTE]
+  > ![](Imagenes/H4.png)
+
+  Se valida hipótesis: El estudio demuestra que existe  una relación positiva entre las variables. , por lo que se determina que la              
+  productividad de un artista en términos de cantidad de canciones puede estar relacionada con su popularidad o éxito medido por el número de      streams.
+
+  **Hipótesis 5**
+   Esta hipótesis fue estudiada de dos formas:
+
+   +Correlación de Perason: (Individual por caracteristica)
+
+  > [!NOTE]
+  > ![](Imagenes/H5_Acous.png)
+
+  Interpretación: El coeficiente de correlación cercano a cero implica que no hay una relación lineal significativa entre estas dos variables.
+
+  > [!NOTE]
+  > ![](Imagenes/H5_Dance.png)
+
+  Interpretación: Se analiza si la capacidad de baile de una canción afecta su popularidad en términos de streams, aunque el coeficiente de        correlación sugiere que no hay una relación lineal significativa entre estas dos variables.
+
+  > [!NOTE]
+  > ![](Imagenes/H5_ENERGY.png)
+
+  Interpretación: El coeficiente de correlación sugiere que no hay una relación lineal significativa entre estas dos variables.
+
+ > [!NOTE]
+ > ![](Imagenes/H5_INST.png)
+
+ Interpretación: El coeficiente de correlación sugiere que no hay una relación lineal significativa entre estas dos variables.
+
+  > [!NOTE]
+  > ![](Imagenes/H5_LIVE.png)
+
+ Interpretación: El coeficiente de correlación Pearson de -0.04, sugiere que no hay una relación lineal significativa entre la vivacidad y la 
+ popularidad de las canciones en términos de streams.
+
+  > [!NOTE]
+  > ![](Imagenes/H5_SPEECH.png)
+
+ Interpretación: El coeficiente de correlación sugiere que existe una relación debil entre estas dos variables.
+
+  > [!NOTE]
+  > ![](Imagenes/H5_Valen.png)
+ 
+  Interpretación: El coeficiente de correlación sugiere que no hay una relación lineal significativa entre estas dos variables.
+
+  + Pruebas Estadísticas
+
+  Para evaluar nuestras hipótesis, seleccionamos un nivel de confianza del 95% (α = 0.05). Utilizamos dos pruebas estadísticas según la distribución de nuestros datos:
+
+  * Prueba t de Student: Para comparar la diferencia de medias entre dos grupos con distribución normal.
+  * Prueba U de Mann-Whitney: Para comparar dos grupos cuando no se cumple la suposición de normalidad.
+  
+  > [!NOTE]
+  > ![](Imagenes/Test.png)
+  
+   Se refuta hipótesis: Las características generales de una canción no influyen directamente en el éxito de la canción, las únicas que podrian tener una influencia débil son Danceability y Speechiness.
+
+## **Conclusiónes**
+
+El éxito de una canción esta relacionado con:
+
+1. La presencia de la canción en multiples playlist.
+2. Artistas con mayor repertorio y variedad de canciónes.
+3. Disponibiliada de la canción en diferentes plataformas de manera simultanea.
+4. Que la canción sea bailable y con presencia de palabras (aunque estas no influyan de manera relevante).
+   
+ ## **Recomendaciones**
+
+**+ Presencia en Listas de Reproducción:** Aparecer en diversas listas de reproducción y rankings musicales aumenta la visibilidad de la canción y facilita que llegue a un público más amplio. Esto puede lograrse mediante la colaboración con curadores de listas y utilizando estrategias de marketing digital.
+
+**+  Colaboración con Artistas Reconocidos:** Trabajar con artistas que tienen un amplio repertorio y reconocimiento puede atraer a sus seguidores existentes y añadir credibilidad a la nueva canción. Las colaboraciones pueden crear sinergias y abrir nuevas oportunidades para el crecimiento de la audiencia.
+
+**+ Disponibilidad en Múltiples Plataformas:** Asegurar que la canción esté disponible en varias plataformas de streaming (como Spotify, Apple Music, Deezer, etc.) maximiza su accesibilidad y alcance. Esto permite a los oyentes encontrar y escuchar la canción en su plataforma preferida, lo que puede aumentar el número total de reproducciones y el impacto general de la canción.
+  
+  
+
+  
 
