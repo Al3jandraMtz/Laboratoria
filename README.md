@@ -1244,7 +1244,7 @@ else:
   
    Se refuta hipótesis: Las características generales de una canción no influyen directamente en el éxito de la canción, las únicas que podrian tener una influencia débil son Danceability y Speechiness.
 
-## **Conclusiónes**
+## **Conclusiones**
 
 El éxito de una canción esta relacionado con:
 
