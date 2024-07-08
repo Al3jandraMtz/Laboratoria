@@ -1270,7 +1270,9 @@ Accede a la presentación del proyecto [aquí](https://drive.google.com/file/d/1
 Accede a mi notebook en Google Colab haciendo clic [aquí](https://colab.research.google.com/drive/1wF92L0CWGlRsGqt7QbAt8QBEa42lU-w2).
 
 ## BigQuery Notebook
-Accede a mi notebook en BigQuery haciendo clic [aquí](https://console.cloud.google.com/bigquery?hl=es-419&_ga=2.44524516.1342181664.1719068909-1921308691.1719068909&pli=1&project=proyecto-1-spotify&ws=!1m5!1m4!4m3!1sproyecto-1-spotify!2sData_set!3sData_set_completo2)
+Accede a mi Data  set en BigQuery haciendo clic [aquí](https://console.cloud.google.com/bigquery?ws=!1m4!1m3!3m2!1sproyecto-1-spotify!2sData_set)
+
+Accede a mis tablas de resultados en BigQuery haciendo clic [aquí](proyecto-1-spotify.Resultados)
 
 ## Dashboard 
 Accede al PDF de mi dashboard de Power BI haciendo clic [aquí](https://drive.google.com/file/d/1z9lX56PImNskBTMjBCvlK6Fwe3HHzKXH/view?usp=sharing).
