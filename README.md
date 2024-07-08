@@ -17,6 +17,10 @@ En un mundo en el que la industria musical es extremadamente competitiva y está
 
 ![](Imagenes/algoritmo-de-Spotify.jpg)
 
+### Trabajo en dupla
+- [Verónica Domínguez](https://github.com/VeronicaDomR)
+- [Alejandra Martínez](https://github.com/Al3jandraMtz)
+
 ### **Herramientas**
   + SQL
   + BigQuery
@@ -1268,11 +1272,6 @@ Accede a la presentación del proyecto [aquí](https://drive.google.com/file/d/1
 
 ## Google Colab Notebook
 Accede a mi notebook en Google Colab haciendo clic [aquí](https://colab.research.google.com/drive/1wF92L0CWGlRsGqt7QbAt8QBEa42lU-w2).
-
-## BigQuery Notebook
-Accede a mi Data  set en BigQuery haciendo clic [aquí](https://console.cloud.google.com/bigquery?ws=!1m4!1m3!3m2!1sproyecto-1-spotify!2sData_set)
-
-Accede a mis tablas de resultados en BigQuery haciendo clic [aquí](proyecto-1-spotify.Resultados)
 
 ## Dashboard 
 Accede al PDF de mi dashboard de Power BI haciendo clic [aquí](https://drive.google.com/file/d/1z9lX56PImNskBTMjBCvlK6Fwe3HHzKXH/view?usp=sharing).
