@@ -10,6 +10,7 @@
 - [Validación de hipótesis](#validación-de-hipótesis)
 - [Conclusiónes](#Conclusiónes)
 - [Recomendaciones](#Recomendaciones)
+- [Recursos](#Recursos)
 
 ## Introducción
 En un mundo en el que la industria musical es extremadamente competitiva y está en permanente evolución, la capacidad de tomar decisiones basadas en datos se ha convertido en un activo invaluable. En este contexto, una discográfica se enfrenta al emocionante desafío de lanzar un nuevo artista en el escenario musical global. Afortunadamente, cuenta con una herramienta poderosa en su arsenal: un extenso dataset de Spotify con información sobre las canciones más escuchadas en 2023. La discográfica planteó una serie de hipótesis sobre qué hace que una canción sea más escuchada, las que deberán ser analizadas para asegurar un lanzamiento exitoso.
@@ -642,12 +643,11 @@ En un mundo en el que la industria musical es extremadamente competitiva y está
   > ![](Imagenes/13.png)
   
   Interpretación: 
-    + Estadístico t y valor p: La prueba t nos dice que las medias de BPM en los grupos de canciones con muchos streams (alto) y pocos streams (bajo) son prácticamente iguales. El valor p tan alto       
-      (0.966) nos dice que la diferencia es insignificante, es decir, no podemos decir con confianza que los BPM difieren entre los dos grupos.
-    + Estadístico U y valor p: La prueba de Mann-Whitney nos dice algo similar, pero en lugar de comparar solo las medias, compara las distribuciones completas de BPM entre los dos grupos. El resultado 
-      nos dice que las distribuciones de BPM en canciones con muchos streams y pocas streams también son prácticamente iguales. Nuevamente, el valor p alto (0.966) nos dice que la diferencia no es 
+    + Estadístico t y valor p: La prueba t nos dice que las medias de BPM en los grupos de canciones con muchos streams (alto) y pocos streams (bajo) son     prácticamente iguales. El valor p tan alto (0.966) nos dice que la diferencia es insignificante, es decir, no podemos decir con confianza que los BPM      difieren entre los dos grupos.
+    + Estadístico U y valor p: La prueba de Mann-Whitney nos dice algo similar, pero en lugar de comparar solo las medias, compara las distribuciones         completas de BPM entre los dos grupos. El resultado 
+      nos dice que las distribuciones de BPM en canciones con muchos streams y pocas streams también son prácticamente iguales. Nuevamente, el valor p        alto (0.966) nos dice que la diferencia no es 
       significativa.
-    En resumen, según estos resultados, la cantidad de streams (si es alta o baja) no parece influir en el BPM de las canciones.
+   En resumen, según estos resultados, la cantidad de streams (si es alta o baja) no parece influir en el BPM de las canciones.
 
 
   Consulta: 
@@ -1159,7 +1159,7 @@ else:
   Hipótesis 5
   Las características de la canción influyen en el éxito en términos de streams en Spotify.
 
-## **Resuktados**
+## **Resultados**
 
   **Hipótesis 1**
 
@@ -1189,8 +1189,7 @@ else:
   > [!NOTE]
   > ![](Imagenes/H4.png)
 
-  Se valida hipótesis: El estudio demuestra que existe  una relación positiva entre las variables. , por lo que se determina que la              
-  productividad de un artista en términos de cantidad de canciones puede estar relacionada con su popularidad o éxito medido por el número de      streams.
+  Se valida hipótesis: El estudio demuestra que existe  una relación positiva entre las variables. , por lo que se determina que la productividad de un       artista en términos de cantidad de canciones puede estar relacionada con su popularidad o éxito medido por el número de streams.
 
   **Hipótesis 5**
    Esta hipótesis fue estudiada de dos formas:
@@ -1263,6 +1262,18 @@ El éxito de una canción esta relacionado con:
 **+ Disponibilidad en Múltiples Plataformas:** Asegurar que la canción esté disponible en varias plataformas de streaming (como Spotify, Apple Music, Deezer, etc.) maximiza su accesibilidad y alcance. Esto permite a los oyentes encontrar y escuchar la canción en su plataforma preferida, lo que puede aumentar el número total de reproducciones y el impacto general de la canción.
   
   
+## Recursos
+## Presentación del Proyecto 
+Accede a la presentación del proyecto [aquí](https://drive.google.com/file/d/1BlpEM_YZgUQvM5y882vqlx-kVCrwcvJs/view?usp=sharing)
+
+## Google Colab Notebook
+Accede a mi notebook en Google Colab haciendo clic [aquí](https://colab.research.google.com/drive/1wF92L0CWGlRsGqt7QbAt8QBEa42lU-w2).
+
+## BigQuery Notebook
+Accede a mi notebook en BigQuery haciendo clic [aquí](https://console.cloud.google.com/bigquery?hl=es-419&_ga=2.44524516.1342181664.1719068909-1921308691.1719068909&pli=1&project=proyecto-1-spotify&ws=!1m5!1m4!4m3!1sproyecto-1-spotify!2sData_set!3sData_set_completo2)
+
+## Dashboard 
+Accede al PDF de mi dashboard de Power BI haciendo clic [aquí](https://drive.google.com/file/d/1z9lX56PImNskBTMjBCvlK6Fwe3HHzKXH/view?usp=sharing).
 
   
 
