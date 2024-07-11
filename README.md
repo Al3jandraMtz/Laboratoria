@@ -128,7 +128,7 @@ En un mundo en el que la industria musical es extremadamente competitiva y está
   > ![](Imagenes/Duplicados.png)
 
   Query:
- ~~~
+  ~~~
     WITH
       duplicados AS (
       SELECT
